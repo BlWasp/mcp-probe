@@ -52,6 +52,7 @@ async def cmd_list(client):
         for r in resources:
             print(f"\n  • {r.name}")
             print(f"    URI : {r.uri!r}")
+            print(f"    Description : {r.description.strip()}")
     else:
         print("  (none)")
 
@@ -61,7 +62,8 @@ async def cmd_list(client):
     if resource_templates:
         for rt in resource_templates:
             print(f"\n  • {rt.name}")
-            print(f"    URI : {rt.uri!r}")
+            print(f"    URI : {rt.uriTemplate!r}")
+            print(f"    Description : {rt.description.strip()}")
     else:
         print("  (none)")
 
@@ -98,7 +100,7 @@ async def cmd_tool(client, name, args_dict):
     """Call a tool with arguments."""
     try:
         result = await client.call_tool(name, args_dict)
-        for item in result:
+        for item in result.content:
             if hasattr(item, "text"):
                 print(item.text)
             else:
